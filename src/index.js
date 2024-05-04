@@ -74,8 +74,7 @@ const replace = (options = {}) => {
   const functionValues = mapToFunctions(options);
   const empty = Object.keys(functionValues).length === 0;
   const keys = Object.keys(functionValues).sort(longest).map(escape);
-  const { preventAssignment } = options
-  const { delimiters } = options;
+  const { delimiters, preventAssignment } = options;
   const lookahead = preventAssignment ? '(?!\\s*(=[^=]|:[^:]))' : '';
   const pattern = delimiters
     ? new RegExp(
