@@ -74,13 +74,15 @@ const replace = (options = {}) => {
   const functionValues = mapToFunctions(options);
   const empty = Object.keys(functionValues).length === 0;
   const keys = Object.keys(functionValues).sort(longest).map(escape);
+  const { preventAssignment } = options
   const { delimiters } = options;
+  const lookahead = preventAssignment ? '(?!\\s*(=[^=]|:[^:]))' : '';
   const pattern = delimiters
     ? new RegExp(
-        `${escape(delimiters[0])}(${keys.join("|")})${escape(delimiters[1])}`,
+        `${escape(delimiters[0])}(${keys.join("|")})${escape(delimiters[1])}${lookahead}`,
         "g"
       )
-    : new RegExp(`\\b(${keys.join("|")})\\b`, "g");
+    : new RegExp(`\\b(${keys.join("|")})\\b${lookahead}`, "g");
   return {
     name: "replace",
     setup(build) {

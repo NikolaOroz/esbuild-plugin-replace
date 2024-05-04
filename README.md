@@ -88,3 +88,39 @@ Type: `Array[String, String]`
 Default: `['\b', '\b']`
 
 Specifies the boundaries around which strings will be replaced. By default, delimiters are word boundaries. See Word [Boundaries](https://stackoverflow.com/questions/1324676/what-is-a-word-boundary-in-regex) below for more information.
+
+
+### `preventAssignment`
+Type: `Boolean`
+
+Default: `false`
+
+Prevents replacing strings where they are followed by a single equals sign. For example, where the plugin is called as follows:
+
+```js
+replace({
+  values: {
+    changed: "false"
+  }
+});
+```
+
+Observe the following code:
+
+```js
+// Input
+changed = false;
+if (changed == true) {
+  //
+}
+// Without `preventAssignment`
+false = false; // this throws an error because false cannot be assigned to
+if (false == true) {
+  //
+}
+// With `preventAssignment`
+changed = false;
+if (false == true) {
+  //
+}
+```
